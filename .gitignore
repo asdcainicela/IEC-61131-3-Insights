@@ -1,0 +1,12 @@
+#CODESYS
+*.opt
+*.precompilecache
+*.bootinfo
+*.compileinfo
+*.bootinfo_guids
+
+#Latex or Tex
+*.aux
+*.log
+*.out
+*.synctex.gz
