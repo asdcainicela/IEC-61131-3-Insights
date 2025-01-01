@@ -1,0 +1,66 @@
+%https://github.com/Ydalirsson/latex-listings-ST/blob/main/codestyle.tex
+
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.502,0.502,0.0}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+\definecolor{ColorFrame}{HTML}{A8A3F0}
+
+\lstdefinelanguage{ST}
+{
+	morekeywords={
+		case,of,if,then,end_if,end_case,super,function_block,extends,var,
+		constant, byte,,end_var,var_input, real,bool,var_output,
+		dint,udint,word,dword,array, of,uint,not,adr, program, for, end_for, while, do, end_while, repeat, end_repeat, until, to, by, else, elsif, var_in_out, and_then, or_else, method, and, or, xor, pointer, int
+	},
+	otherkeywords={
+		:, :=, <>,;,\,.,\[,\],\^,1,2,3,4,5,6,7,8,9,0,TRUE, FALSE, \#, \{attribute,  \'hide\'\}
+	},
+	keywords=[1]{
+		case,of,if,then,end_if,end_case,super,function_block,extends,var,
+		constant, byte,,end_var,var_input, real,bool,var_output,
+		dint,udint,word,dword,array, of,uint,not,adr, :, :=, <>,;,\,.,\[,\],\^,program, for, end_for, while, do, end_while, repeat, end_repeat, until, to, by, else, elsif, var_in_out, and_then, or_else, method, and, or, xor, pointer, int
+	},
+	keywordstyle=[1]\color{blue},
+	keywords=[2]{
+		1,2,3,4,5,6,7,8,9,0, TRUE, FALSE, \#
+	},
+	keywordstyle=[2]\color{codepurple},
+	keywords=[3]{
+		\{attribute,  \'hide\'\}
+	},
+	keywordstyle=[3]\color{codegray},
+	sensitive=false,
+	morecomment=[l]{//}, 
+	morecomment=[s]{(*}{*)},
+	morestring=[b]{"},
+	morestring=[b]{'}
+}
+
+\lstset{
+	language={ST},
+	backgroundcolor=\color{white}, % Fondo blanco
+	commentstyle=\color{codegreen}, %\textit ,
+	keywordstyle=\color{blue},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle= \normalsize ,%\small,% \footnotesize  , % Tamaño de fuente
+	breakatwhitespace=true,         
+	breaklines=true,                 
+	%captionpos=b,                    
+	keepspaces=false,                 
+	numbersep=5pt,                   
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                   
+	tabsize=2,
+	aboveskip=15pt,  
+	belowskip=0pt,  % Sin espacio después
+	xleftmargin=0pt,  % Sin margen a la izquierda
+	xrightmargin=0pt,  % Sin margen a la derecha
+	frame=tb,   % Marco alrededor del código 
+	rulecolor=\color{ColorFrame},  % Color de las líneas del marco
+	columns=flexible, % Espaciado flexible entre columnas
+}
+

@@ -1,0 +1,194 @@
+\section{BITSTRING OPERATORS}
+
+\subsection{AND} 
+
+\myWrapTable{ccc}{ 
+	\hline
+	A & B & A \imp{AND} B \\ 
+	\hline
+	0 & 0 & 0 \\ 
+	\hline
+	0 & 1 & 0 \\ 
+	\hline
+	1 & 0 & 0 \\ 
+	\hline
+	1 & 1 & 1 \\ 
+	\hline
+}
+
+The operator is used for bitwise \imp{AND} operation of bit operands.
+
+Permitted data types: BOOL, BYTE, WORD, DWORD, LWORD.
+
+\begin{lstlisting}[language=ST ]
+	PROGRAM Bitstring_Operators
+	VAR 
+		wVarAnd: WORD;
+	END_VAR
+	
+	wVarAnd := 2#1001_0011 AND 2#1000_1010;
+	(* Result in wVarAnd: 2#1000_0010 *)
+\end{lstlisting}	  
+
+\subsection{AND\_THEN}
+
+The operator is an extension of the IEC 61131-3 standard, used
+exclusively in \imp{Structured Text (ST)} for \imp{AND} operation with \imp{shortcircuit evaluation}
+on \imp{BOOL} and \imp{BIT} operands.
+
+When all operands yield \imp{TRUE}, the result of the operands also yield \imp{TRUE}; otherwise \imp{FALSE}.
+
+
+\begin{lstlisting}[language=ST ]
+	PROGRAM Bitstring_Operators
+	VAR 
+		pxSensor : POINTER TO BOOL;       // Pointer to a sensor 
+		xAlarm : BOOL;                   // Variable to activate the alarm
+	END_VAR
+	
+	(* pxSensor := ADR(xSomethingValue);  Is NULL if not initialized *)
+	IF (pxSensor <> 0 AND_THEN pxSensor^) THEN 
+		(* Additional logic can be implemented below *)
+		xAlarm := TRUE;
+	END_IF
+\end{lstlisting} 
+
+%\begin{enumerate}
+	%\item 
+	Check if the pointer \highlight{pSensor} is not null. If it is null, the rest of the condition is not evaluated.
+	%\item
+	 The \highlight{pxSensor^} is only evaluated if \highlight{pxSensor <> 0} is \highlight{TRUE}, avoiding dereference errors.
+%\end{enumerate}
+
+Using \highlight{AND\_THEN} prevents the program from accessing \highlight{psSensor^} when \highlight{pxSensor} is 0, avoiding runtime errors, making it safer and more efficient than using \highlight{AND}.
+\subsection{OR\_ELSE} 
+The operator is an extension of the IEC 61131-3 standard, used
+exclusively in \imp{Structured Text (ST)} for \imp{OR} operation with \imp{shortcircuit evaluation}
+on \imp{BOOL} and \imp{BIT} operands.
+
+When at least one of the operands yields \imp{TRUE}, the result of the operation also yields \imp{TRUE}; otherwise \imp{FALSE}.
+
+\begin{lstlisting}[language=ST ]
+	FUNCTION_BLOCK FB_OrElse
+	VAR
+		iCounter : INT;
+	END_VAR
+\end{lstlisting} 
+\begin{lstlisting}[language=ST ]	
+	(* Method of the Function Block FB_OrElse *)
+	METHOD TestMethod : BOOL
+	iCounter := iCounter + 1;
+	TestMethod := TRUE; (* Set the method's return value to TRUE *)
+\end{lstlisting} 
+
+\begin{lstlisting}[language=ST ]
+	PROGRAM Bitstring_Operators
+	VAR 
+		fbSampleOrElse : FB_OrElse; //Instance of the FB_OrElse function block 
+		xResult : BOOL;
+		xVar : BOOL;
+	END_VAR
+	
+	xResult := xVar OR_ELSE fbSampleOrElse.TestMethod();
+\end{lstlisting} 
+
+\begin{enumerate}
+	\item If \highlight{xVar} is \highlight{TRUE}, the method does not execute, and the counter iCounter does not increment.
+	\item If \highlight{xVar} is \highlight{FALSE}, the method executes, and the counter iCounter increments by 1.
+\end{enumerate}
+
+With \highlight{OR_ELSE}, if any operand is \highlight{TRUE}, the rest of the expressions are not evaluated, unlike the regular \highlight{OR} operator.
+
+\subsection{OR} 
+
+\myWrapTable{ccc}{ 
+	\hline
+	A & B & A \imp{OR} B \\ 
+	\hline
+	0 & 0 & 0 \\ 
+	\hline
+	0 & 1 & 1 \\ 
+	\hline
+	1 & 0 & 1 \\ 
+	\hline
+	1 & 1 & 1 \\ 
+	\hline
+}
+
+The IEC operator is used for bitwise \imp{OR} operation of bit operands.
+
+Permitted data types: BOOL, BYTE, WORD, DWORD, LWORD.
+
+\vspace{15pt}
+
+\begin{lstlisting}[language=ST ]
+	PROGRAM Bitstring_Operators
+	VAR 
+		wVarOr: WORD;
+	END_VAR
+	
+	wVarOr:= 2#1001_0011 OR 2#1000_1010;
+	(* Result in wVarOr: 2#1001_1011 *)
+\end{lstlisting}	
+ 
+
+\subsection{XOR} 
+
+	\myWrapTable{ccc}{ 
+		\hline
+		A & B & A \imp{XOR} B \\ 
+		\hline
+		0 & 0 & 0 \\ 
+		\hline
+		0 & 1 & 1 \\ 
+		\hline
+		1 & 0 & 1 \\ 
+		\hline
+		1 & 1 & 0 \\ 
+		\hline
+	}
+	The IEC operator is used for bitwise \imp{XOR} operation of bit operands.
+	
+	Permitted data types: BOOL, BYTE, WORD, DWORD, LWORD. 
+	
+	Note the following behavior of the XOR POU in extended form (more than two inputs): compares the inputs in pairs and then the corresponding results (according to the standard, but not necessarily according to expectations).
+	
+	\begin{lstlisting}[language=ST ]
+		PROGRAM Bitstring_Operators
+		VAR 
+			wVarXor: WORD;
+		END_VAR
+		
+		wVarXor := 2#1001_0011 XOR 2#1000_1010;
+		(* Result in wVarXor: 2#0001_1001 *)
+	\end{lstlisting}
+
+
+
+\subsection{NOT} 
+
+	\myWrapTable{cc}{ 
+		\hline
+		A &  \imp{NOT} A \\ 
+		\hline
+		 0 & 1 \\ 
+		\hline
+		 1 & 0 \\ 
+		\hline
+	}
+	
+	
+	The IEC operator is used for bitwise \imp{NOT} of bit operands.
+	
+	Permitted data types: BOOL, BYTE, WORD, DWORD, LWORD.
+	
+	\begin{lstlisting}[language=ST ]
+		PROGRAM Bitstring_Operators
+		VAR 
+			wVarNot: WORD;
+		END_VAR
+		
+		wVarNot := NOT 2#1001_0011;
+		(* Result in wVarNot: 2#0110_1100 *)
+	\end{lstlisting}	 
+
