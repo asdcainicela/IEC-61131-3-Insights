@@ -23,8 +23,6 @@
 	pdftitle={IEC-61131-3-Insights},
 }
 
-
-
 \usepackage[plainfootsepline]{scrlayer-scrpage} % Para encabezados y pies de página personalizados
 
 % Cambiar la fuente a Palatino (elegante y profesional)
@@ -46,6 +44,8 @@
 \definecolor{ColorBlueText}{HTML}{1C3F60}
 \definecolor{customcolor}{HTML}{1C3F60}
 
+\definecolor{ColorBoxTitle}{HTML}{f2fef5}
+\definecolor{ColorBox}{HTML}{f7fffe}
 % Aplica el color de fondo de la página
 \pagecolor{ColorBg}
 
@@ -156,12 +156,33 @@ contents={
 
 % Definimos un nuevo comando que usa lstinline y fcolorbox
 \newcommand{\highlight}[1]{\fcolorbox{white}{white}{\lstinline|#1|}}
+\newcommand{\Highlight}[1]{\lstinline|#1|}
 
+
+\usepackage[most]{tcolorbox}
+\newtcolorbox{Box1}[2][]{
+	lower separated=false,
+	colback =ColorBox, % Fondo de contenido claro
+	colframe=white, fonttitle=\bfseries,
+	colbacktitle=ColorBoxTitle,
+	coltitle=black,
+	enhanced,
+	attach boxed title to top left={xshift=0.5cm,yshift=-2mm},
+	title=#2,#1
+}
+\definecolor{ColorDebugFill}{HTML}{fff3e7}
+\definecolor{ColorDebugFrame}{HTML}{ab8975}
+\newcommand{\debugval}[1]{\fcolorbox{ColorDebugFrame}{ColorDebugFill}{\small{#1}}\ } % Command for orange debug values
 \begin{document}
-	\setstretch{1.5}
+	
 	\arrayrulecolor[HTML]{3798a2}
 	\setlength{\tabcolsep}{2\tabcolsep} % Duplica el espacio entre columnas
 	\setlength\intextsep{-0.1ex}
-	 
-	\include{ BitstringOperators.tex}
+	%\tableofcontents
+	%\newpage
+	\setstretch{1.5}
+	%\include{AddressOperators.tex}
+	\include{SelectionOperators.tex}
+	%\include{BitstringOperators.tex}
+	
 \end{document}

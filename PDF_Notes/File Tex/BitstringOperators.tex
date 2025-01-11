@@ -55,12 +55,12 @@ When all operands yield \imp{TRUE}, the result of the operands also yield \imp{T
 
 %\begin{enumerate}
 	%\item 
-	Check if the pointer \highlight{pSensor} is not null. If it is null, the rest of the condition is not evaluated.
+	Check if the pointer \highlight{pxSensor} is not null. If it is null, the rest of the condition is not evaluated.
 	%\item
 	 The \highlight{pxSensor^} is only evaluated if \highlight{pxSensor <> 0} is \highlight{TRUE}, avoiding dereference errors.
 %\end{enumerate}
 
-Using \highlight{AND\_THEN} prevents the program from accessing \highlight{psSensor^} when \highlight{pxSensor} is 0, avoiding runtime errors, making it safer and more efficient than using \highlight{AND}.
+Using \highlight{AND\_THEN} prevents the program from accessing \highlight{pxSensor^} when \highlight{pxSensor} is 0, avoiding runtime errors, making it safer and more efficient than using \highlight{AND}.
 \subsection{OR\_ELSE} 
 The operator is an extension of the IEC 61131-3 standard, used
 exclusively in \imp{Structured Text (ST)} for \imp{OR} operation with \imp{shortcircuit evaluation}
@@ -73,7 +73,9 @@ When at least one of the operands yields \imp{TRUE}, the result of the operation
 	VAR
 		iCounter : INT;
 	END_VAR
-\end{lstlisting} 
+\end{lstlisting}
+ 
+\newpage
 \begin{lstlisting}[language=ST ]	
 	(* Method of the Function Block FB_OrElse *)
 	METHOD TestMethod : BOOL

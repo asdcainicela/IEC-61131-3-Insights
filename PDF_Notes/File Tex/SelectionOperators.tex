@@ -1,0 +1,235 @@
+\section{SELECTION OPERATORS}
+
+
+\subsection{MAX}
+
+The IEC operator is used for the maximum function. It yields the greatest value of all inputs.
+
+\begin{Box1}{Syntax}
+	OUT := MAX(IN0, IN1, <further inputs>)
+\end{Box1}	
+
+\textbf{Permitted data types:} All
+
+
+\begin{lstlisting}[language=ST ]
+	PROGRAM Selection_Operators
+	VAR
+		rRoomTemp : REAL := 22.5;   // Room temperature
+		rExtTemp : REAL := 18.3;    // External temperature
+		rMaxTemp : REAL;    // Maximum temperature
+		iMaxAge : INT;  // Maximum age of the plant workers
+	END_VAR
+	
+	// Get the highest temperature between the two
+	rMaxTemp(*@\debugval{22.5}@*) := MAX(rRoomTemp(*@\debugval{22.5}@*), rExtTemp(*@\debugval{18.3}@*));
+	
+	// Result is the maximum age of the plant workers
+	iMaxAge(*@\debugval{39}@*) := MAX(32, 25, 36, 24, 18, 39, 30);  
+\end{lstlisting}
+
+
+
+
+\subsection{LIMIT}
+The IEC selection operator is used for limitation.
+
+\begin{Box1}{Syntax}
+	\Highlight{OUT :=  LIMIT}(Min, IN, Max) \hspace{5pt}
+\end{Box1}	
+%	means: \Highlight{OUT := MIN(MAX (IN,} Min), Max) 
+\textbf{Permitted data types:} All.
+
+%\resizebox{0.9\textwidth}{!}{%
+\begin{tabular}{lll} % Aquí se pasa la estructura de la tabla como argumento
+	\hline
+	\textbf{Input Value (IN)} & \textbf{Output (OUT)} & \textbf{Explanation} \\
+	\hline
+	IN $<$ Min & OUT = Min & The value is below the lower limit. \\ 
+	\hline
+	Min $\leq$ IN $\leq$ Max & OUT = IN & The value is within the specified range. \\ 
+	\hline
+	IN $>$ Max & OUT = Max & The value exceeds the upper limit. \\ 
+	\hline
+\end{tabular}
+%}
+\newpage
+The \highlight{LIMIT} function ensures that the output remains within a defined range. The following table demonstrates how it behaves with different input values.
+
+\begin{lstlisting}[language=ST ]
+	PROGRAM Selection_Operators
+		iInPressure : INT;    // Raw pressure sensor value (input)
+		iPressure : INT;          // Adjusted pressure value (output)
+	END_VAR
+	VAR CONSTANT 
+		cMinPressure : INT := 100;   // Minimum allowed pressure
+		cMaxPressure : INT := 150;   // Maximum allowed pressure
+	END_VAR
+	
+	iPressure(*@\debugval{100}@*) := LIMIT(cMinPressure(*@\debugval{100}@*), iInPressure(*@\debugval{80}@*), cMaxPressure(*@\debugval{150}@*));
+\end{lstlisting} 
+
+%\resizebox{1\textwidth}{!}{%
+\begin{tabular}{cccc}
+\hline
+\textbf{Input} & \textbf{Min Limit} & \textbf{Max Limit}& \textbf{Output} \\ 
+\textbf{(iInPressure)}& \textbf{(cMinPressure)}& \textbf{(cMaxPressure)} & \textbf{(iPressure)} \\
+\hline
+80& 100& 150  & 100 \\
+\hline
+120  & 100  & 150  & 120 
+ \\
+\hline
+170 & 100 & 150   & 150  \\
+\hline
+\end{tabular}
+%}
+
+
+
+The LIMIT operator, conceptually is: 
+\fcolorbox{white}{white}{\Highlight{OUT := MIN(MAX}(IN, Min), Max)}.
+
+
+\subsection{MIN}
+
+The IEC operator is used for the minimum function. It yields the least value of all inputs. 
+
+\begin{Box1}{Syntax}
+	OUT := MIN(IN0, IN1, <further inputs>)
+\end{Box1}	
+
+\textbf{Permitted data types:} All.
+
+\begin{lstlisting}[language=ST ]
+	PROGRAM Selection_Operators
+	VAR
+	rRoomTemp : REAL := 22.5;   // Room temperature 
+	rExtTemp : REAL := 18.3;    // External temperature
+	rMinTemp : REAL;    // Minimum temperature
+	iMinAge : INT;  // Minimum age of the plant workers
+	END_VAR
+	
+	// Get the lowest temperature between the two
+	rMinTemp(*@\debugval{18.3}@*) := MIN(rRoomTemp(*@\debugval{22.5}@*), rExtTemp(*@\debugval{18.3}@*));
+	
+	// Result is the minimum age of the plant workers
+	iMinAge(*@\debugval{18}@*) := MIN(32, 25, 36, 24, 18, 39, 30);  
+	// Result is 18, the minimum age of the plant workers
+\end{lstlisting}
+
+
+\subsection{MUX}
+
+The IEC operator is used as a multiplexer.
+
+\begin{Box1}{Syntax}
+	OUT := MUX(K, IN0, ..., INn)
+\end{Box1}
+
+This means OUT takes the value of IN\_K, where K is the specified index.
+
+\textbf{Permitted data types:}
+\begin{itemize}
+\item K:  e  BYTE, WORD, DWORD, LWORD, SINT, USINT, INT, UINT, DINT, LINT, ULINT, UDINT.
+
+\item  IN0, ..., INn and OUT: Any identical data type.% Make sure that variables with the same type are used at all three positions, especially when using user-defined data types. The compiler checks the type equality and issues compilation errors. In particular, the allocation of instances of a function block to interface (variables) is not supported.
+	
+%The MUX operator selects the K-th value from a set of values, where the first value corresponds to K=0. If K exceeds the number of additional inputs (n), both TwinCAT and CODESYS pass the last value (INn).
+
+
+%\textbf{Important!}\\
+%Both CODESYS and TwinCAT optimize runtime by calculating only the expression preceding IN\_K. However, CODESYS computes all branches in simulation mode, while TwinCAT maintains the optimization consistently.
+
+\end{itemize}
+\newpage
+
+\begin{lstlisting}[language=ST]
+	PROGRAM Selection_Operators
+	VAR
+		nSelectedValue : INT;   // The selected value
+		iK : INT := 2;          // The index (K), initialized with 2
+	END_VAR
+	
+	// iK=2, so the selected value will be 30
+	nSelectedValue(*@\debugval{30}@*) := MUX(iK(*@\debugval{2}@*), 10, 20, 30, 40, 50);  
+\end{lstlisting}
+\begin{wraptable}{r}{0.6 \textwidth} % "l" para alinear a la izquierda, "0.4\textwidth" es el ancho de la tabla
+	\centering
+	\resizebox{0.55\textwidth}{!}{%
+		 \begin{tabular}{ccc}
+		 	\hline
+		 	\textbf{(Index)} & \textbf{Values } & \textbf{(OUT)} \\
+		 	\hline
+		 	\highlight{iK}  & IN0, IN1, IN2, IN3, IN4 & \highlight{nSelectedValue} \\
+		 	\hline
+		 	\highlight{-iK} & 10, 20, 30, 40, 50 & 50 \\
+		 	\hline
+		 	0 & 10, 20, 30, 40, 50 & 10 \\
+		 	\hline
+		 	1 & 10, 20, 30, 40, 50 & 20 \\
+		 	\hline
+		 	2 & 10, 20, 30, 40, 50 & 30 \\
+		 	\hline
+		 	3 & 10, 20, 30, 40, 50 & 40 \\
+		 	\hline
+		 	4 & 10, 20, 30, 40, 50 & 50 \\
+		 	\hline
+		 	\highlight{iK > 4} & 10, 20, 30, 40, 50 & 50 \\
+		 	\hline
+		 \end{tabular}
+		}
+	\vspace{-25pt} % Ajusta el espacio inferior
+\end{wraptable}
+
+
+When the index \highlight{iK} is negative (e.g.,  \highlight{iK = -1} ), the MUX operator selects the last value (IN4).
+
+When \highlight{iK} exceeds the number of available inputs (e.g.,  \highlight{iK} = 5 for a 5-input MUX), the operator will also select the last value (IN4).
+
+\subsection{SEL}
+
+The IEC operator is used for bitwise selection.
+
+\begin{Box1}{Syntax}
+	OUT := SEL(G, IN0, IN1)
+\end{Box1}
+
+
+\begin{wraptable}{r}{0.25 \textwidth} % "l" para alinear a la izquierda, "0.4\textwidth" es el ancho de la tabla
+	\centering
+	\resizebox{0.2\textwidth}{!}{%
+		\begin{tabular}{cc}
+			\hline
+			\textbf{G} &  \textbf{OUT} \\
+			\hline
+			\hline
+			\highlight{FALSE} & IN0\\
+			\hline
+			\highlight{TRUE} & IN1\\
+			\hline
+		\end{tabular}
+	}
+	\vspace{-25pt} % Ajusta el espacio inferior
+\end{wraptable}
+
+\textbf{Permitted data types:}
+\begin{itemize}
+	\item IN0, ..., INn and OUT: any identical data type. %Make sure that variables of the identical type are used at all three positions, especially when using user-defined data types. The compiler checks for type identity and returns any compile errors. The assignment of function block instances to interface variables is specifically not supported.
+	\item G: BOOL
+\end{itemize}
+
+%\textbf{Important:}
+%TwinCAT and CODESYS do not compute an expression that precedes IN0 when G is TRUE, nor do they compute an expression that precedes IN1 when G is FALSE, and in graphical programming languages, the expressions at IN0 and IN1 are computed independently of the G input when a function block, a jump, a return, a branch, or edge detection is connected upstream.
+
+
+\begin{lstlisting}[language=ST]
+	VAR
+		iVarSel : INT; // Result of SEL
+	END_VAR
+	
+	iVarSel := SEL(FALSE, 3, 4); (* Result: 3 *)
+	iVarSel := SEL(TRUE, 3, 4); (* Result: 4 *)
+\end{lstlisting}
+
+
