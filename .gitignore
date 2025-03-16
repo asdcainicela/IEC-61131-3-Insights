@@ -4,6 +4,7 @@
 *.bootinfo
 *.compileinfo
 *.bootinfo_guids
+*.precompilecache.zip
 
 #Latex or Tex
 *.aux
