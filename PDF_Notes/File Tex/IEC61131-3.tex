@@ -1,188 +1,95 @@
-\documentclass[20pt]{extarticle} % Usa extarticle para tamaños de fuente
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{lmodern} % Fuente moderna que mejora los caracteres especiales
-\usepackage{setspace} % Configuración para interlineado
+% --------------------------------------------
+% IEC 61131-3 Insights - Main Document
+% Uses tex-content-publisher template
+% --------------------------------------------
+%
+% REQUIREMENT: Download template from:
+%   https://github.com/asdcainicela/tex-content-publisher.git
+%
+% Option 1 - Submodule (recommended):
+%   git submodule add https://github.com/asdcainicela/tex-content-publisher.git ../../../tex-content-publisher
+%
+% Option 2 - Clone manually:
+%   git clone https://github.com/asdcainicela/tex-content-publisher.git
+%   (should be a sibling folder to IEC-61131-3-Insights)
+%
+% --------------------------------------------
 
-% Paquetes para matemáticas
-\usepackage{amsmath} % Entornos matemáticos avanzados
-\usepackage{amssymb} % Símbolos matemáticos adicionales
-\usepackage{amsfonts} % Fuentes matemáticas adicionales
+% Load external preamble (base template)
+\input{../../../tex-content-publisher/preamble}
 
-% Paquetes para colores, gráficos y diseño de página
-\usepackage{xcolor}  % Para colores
-\usepackage{tikz}    % Para gráficos y degradados
-\usepackage{pagecolor} % Para el color de fondo de toda la página
-\usepackage{geometry} % Para ajustar las dimensiones de la página y márgenes
-\usepackage{hyperref} % Para enlaces clicables
+% Load custom local colors (override)
+\input{config-colors}
+
+% Load codestyle for Structured Text
+\input{../../../tex-content-publisher/codestyles/ST}
+
+% --------------------------------------------
+% DOCUMENT-SPECIFIC CONFIGURATION
+% --------------------------------------------
+
+% Hyperref with project title
 \hypersetup{
-	colorlinks=true,
-	linkcolor=blue,
-	filecolor=magenta,      
-	urlcolor=blue,
-	pdftitle={IEC-61131-3-Insights},
+    pdftitle={IEC-61131-3-Insights},
 }
 
-\usepackage[plainfootsepline]{scrlayer-scrpage} % Para encabezados y pies de página personalizados
-
-% Cambiar la fuente a Palatino (elegante y profesional)
-\usepackage{mathpazo} % Usa Palatino como fuente principal
-\usepackage{microtype} % Mejora la apariencia del texto con pdfLaTeX
-
-% Configurar el tamaño de la hoja
-\geometry{
-	paperwidth=32cm, %25.4cm,
-	paperheight=32cm, %31.75cm,
-	margin=3cm, % Ajusta los márgenes según lo necesites
-	top=4cm % Aumentamos el margen superior para separar el encabezado del cuerpo
-}
-
-% Definir los colores personalizados
-\definecolor{ColorBg}{HTML}{F2F6FC}
-\definecolor{ColorHeadLeft}{HTML}{F8F3ED}
-\definecolor{ColorLineFoot}{HTML}{ded6d6}
-\definecolor{ColorBlueText}{HTML}{1C3F60}
-\definecolor{customcolor}{HTML}{1C3F60}
-
-\definecolor{ColorBoxTitle}{HTML}{f2fef5}
-\definecolor{ColorBox}{HTML}{f7fffe}
-% Aplica el color de fondo de la página
-\pagecolor{ColorBg}
-
-% Define una capa con un degradado lineal en la cabecera de 25.4 cm x 3.17 cm
-\DeclareNewLayer[
-background,
-topmargin,
-addheight=3.17cm, % Altura fija para el encabezado
-contents={
-	\begin{tikzpicture}[remember picture, overlay]
-		% Dibuja un rectángulo con el degradado lineal de izquierda a derecha
-		\path[shade, left color=ColorHeadLeft, right color=ColorBg]
-		(current page.north west) rectangle ([yshift=-3.17cm]current page.north east);
-	\end{tikzpicture}
-}
-]{head.bg}
-
-\AddLayersAtBeginOfPageStyle{scrheadings}{head.bg}
-
-% Configuración del encabezado con TikZ para centrar verticalmente
-\clearpairofpagestyles % Limpia encabezado y pie de página
+% --------------------------------------------
+% CUSTOM HEADER (specific logos)
+% --------------------------------------------
 \ihead{
-	\begin{tikzpicture}[baseline]
-		\node[anchor=center] at (0,0) {\includegraphics[height=1.05cm]{img/Beckhoff_Logo.png}};
-	\end{tikzpicture}
-} % Encabezado izquierdo con imagen
+    \begin{tikzpicture}[baseline]
+        \node[anchor=center] at (0,0) {\includegraphics[height=1.05cm]{img/Beckhoff_Logo.png}};
+    \end{tikzpicture}
+}
 \chead{
-	\begin{tikzpicture}[baseline]
-		\node[anchor=center] at (0,0) {\fontsize{36pt}{36pt}\selectfont\textcolor{ColorBlueText}{\bf IEC 61131-3}};
-	\end{tikzpicture}
-} % Encabezado central con texto
+    \begin{tikzpicture}[baseline]
+        \node[anchor=center] at (0,0) {\fontsize{36pt}{36pt}\selectfont\textcolor{ColorBlueText}{\bf IEC 61131-3}};
+    \end{tikzpicture}
+}
 \ohead{
-	\begin{tikzpicture}[baseline]
-		\node[anchor=center] at (0,0) {\includegraphics[height=2.2cm]{img/Codesys_Logo.png}};
-	\end{tikzpicture}
-} % Encabezado derecho con imagen
-
-\DeclareNewLayer[
-background,
-bottommargin,
-addheight=3cm, % Altura fija para el pie
-contents={
-	\begin{tikzpicture}[remember picture, overlay]
-		% Dibuja un rectángulo con el degradado lineal de izquierda a derecha
-		%\path[shade, left color=ColorLineFoot, right color=ColorLineFoot]
-		(%current page.south west) rectangle ([yshift=2.5cm]current page.south east);
-		\path[fill= ColorLineFoot]
-		([yshift=2.55cm]current page.south west) rectangle ([yshift=2.5cm]current page.south east);
-	\end{tikzpicture}
+    \begin{tikzpicture}[baseline]
+        \node[anchor=center] at (0,0) {\includegraphics[height=2.2cm]{img/Codesys_Logo.png}};
+    \end{tikzpicture}
 }
-]{foot.bg}
 
-% Activar las capas definidas
-\AddLayersAtBeginOfPageStyle{scrheadings}{foot.bg}
-% Pie de página personalizado
-\cfoot{\thepage} % Centro vacío
+% Custom footer
 \ofoot{
-	\begin{tikzpicture}[baseline]
-		\node[anchor=center] at (0,0) {\href{https://github.com/asdcainicela/IEC-61131-3-Insights}{\includegraphics[height=1.5cm]{img/GitHub_Logo.png}}};
-	\end{tikzpicture}
-} % Número de página a la derecha
-\ifoot{\href{https://pe.linkedin.com/in/gerald-cainicela}{Gerald Cainicela}} % Texto y enlace a la izquierda
+    \begin{tikzpicture}[baseline]
+        \node[anchor=center] at (0,0) {\href{https://github.com/asdcainicela/IEC-61131-3-Insights}{\includegraphics[height=1.5cm]{img/GitHub_Logo.png}}};
+    \end{tikzpicture}
+}
+\ifoot{\href{https://pe.linkedin.com/in/gerald-cainicela}{Gerald Cainicela}}
 
-\usepackage{titlesec} % Para modificar el estilo de las secciones
+% --------------------------------------------
+% COLOR TABLE (for arrayrulecolor)
+% --------------------------------------------
+\arrayrulecolor[HTML]{3798a2}
+\setlength{\tabcolsep}{2\tabcolsep}
+\setlength\intextsep{-0.1ex}
 
-% Configuración para las secciones
-\titleformat{\section} % Formato de \section
-{\centering\color{customcolor}\fontsize{40}{48}\bfseries} % Color, tamaño, centrado
-{} % Etiqueta (vacío si no quieres incluir el número)
-{0pt} % Separación entre la etiqueta y el título
-{}
-
-% Configuración para las subsecciones
-\titleformat{\subsection} % Formato de \subsection
-{\color{customcolor}\fontsize{31}{37}\bfseries} % Color, tamaño, alineación (no centrado)
-{} % Etiqueta (vacío si no quieres incluir el número)
-{0pt} % Separación entre la etiqueta y el título
-{}
-
-% Definir comandos para resaltar palabras en rojo
-\newcommand{\imp}[1]{\textcolor{red}{#1}}
-
-\usepackage{listings, multicol}
-  
-\setlength{\parskip}{15pt} % Espaciado entre párrafos
-\setlength{\parindent}{0pt} % Sin indentación al inicio de los párrafos
-\include{codestyle}
-
-\setlength{\parindent}{0pt}  % Elimina la indentación de párrafos
-
-\usepackage{wrapfig} % Paquete necesario
-\usepackage{lipsum}
-\usepackage[x11names,table]{xcolor}  % Asegúrate de usar 'table' 
- 
- \usepackage{colortbl} % Para los colores en las tablas
-%% Automtizaciones
+% Wraptable commands
 \newcommand{\myWrapTable}[2]{
-	\begin{wraptable}{r}{0.3\textwidth} % "l" para alinear a la izquierda, "0.4\textwidth" es el ancho de la tabla
-		\centering
-		\resizebox{0.2\textwidth}{!}{%
-			\begin{tabular}{#1} % Aquí se pasa la estructura de la tabla como argumento
-				#2 % Aquí se pasa el contenido de las filas como argumento
-			\end{tabular}
-		}
-		\vspace{-25pt} % Ajusta el espacio inferior
-	\end{wraptable}
+    \begin{wraptable}{r}{0.3\textwidth}
+        \centering
+        \resizebox{0.2\textwidth}{!}{%
+            \begin{tabular}{#1}
+                #2
+            \end{tabular}
+        }
+        \vspace{-25pt}
+    \end{wraptable}
 }
 
-% Definimos un nuevo comando que usa lstinline y fcolorbox
-\newcommand{\highlight}[1]{\fcolorbox{white}{white}{\lstinline|#1|}}
-\newcommand{\Highlight}[1]{\lstinline|#1|}
-
-
-\usepackage[most]{tcolorbox}
-\newtcolorbox{Box1}[2][]{
-	lower separated=false,
-	colback =ColorBox, % Fondo de contenido claro
-	colframe=white, fonttitle=\bfseries,
-	colbacktitle=ColorBoxTitle,
-	coltitle=black,
-	enhanced,
-	attach boxed title to top left={xshift=0.5cm,yshift=-2mm},
-	title=#2,#1
-}
-\definecolor{ColorDebugFill}{HTML}{fff3e7}
-\definecolor{ColorDebugFrame}{HTML}{ab8975}
-\newcommand{\debugval}[1]{\fcolorbox{ColorDebugFrame}{ColorDebugFill}{\small{#1}}\ } % Command for orange debug values
+% --------------------------------------------
+% DOCUMENT
+% --------------------------------------------
 \begin{document}
-	
-	\arrayrulecolor[HTML]{3798a2}
-	\setlength{\tabcolsep}{2\tabcolsep} % Duplica el espacio entre columnas
-	\setlength\intextsep{-0.1ex}
-	%\tableofcontents
-	%\newpage
-	\setstretch{1.5}
-	\include{AddressOperators.tex}
-	\include{SelectionOperators.tex}
-	%\include{BitstringOperators.tex}
-	
+    
+    \setstretch{1.5}
+    
+    % CONTENT - Each file is a topic/section
+    \include{AddressOperators.tex}
+    \include{SelectionOperators.tex}
+    %\include{BitstringOperators.tex}
+    
 \end{document}
