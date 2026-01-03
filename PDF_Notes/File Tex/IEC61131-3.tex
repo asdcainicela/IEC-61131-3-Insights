@@ -16,13 +16,14 @@
 % --------------------------------------------
 
 % Load external preamble (base template)
-\input{../../../tex-content-publisher/preamble}
+\def\tcppath{../../../tex-content-publisher/}
+\input{\tcppath preamble}
 
 % Load custom local colors (override)
 \input{config-colors}
 
 % Load codestyle for Structured Text
-\input{../../../tex-content-publisher/codestyles/ST}
+\input{\tcppath codestyles/ST}
 
 % --------------------------------------------
 % DOCUMENT-SPECIFIC CONFIGURATION
@@ -30,7 +31,11 @@
 
 % Hyperref with project title
 \hypersetup{
-    pdftitle={IEC-61131-3-Insights},
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,      
+	urlcolor=blue,
+	pdftitle={IEC-61131-3-Insights},
 }
 
 % --------------------------------------------
